@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SimpleWebApp\SimpleWebApp.xproj" />
+    <ProjectReference Include="..\WebListenerWebApp\WebListenerWebApp.xproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <PropertyGroup>
