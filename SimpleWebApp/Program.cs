@@ -4,6 +4,7 @@ using Microsoft.ServiceFabric.Services.Runtime;
 using System.Collections.Generic;
 using System.Fabric;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -59,11 +60,14 @@ namespace SimpleWebApp
 
             Task<string> ICommunicationListener.OpenAsync(CancellationToken cancellationToken)
             {
-                var endpoint = FabricRuntime.GetActivationContext().GetEndpoint(_endpointName);
-
+                var context = FabricRuntime.GetActivationContext();
+                var endpoint = context.GetEndpoint(_endpointName);
                 string serverUrl = $"{endpoint.Protocol}://{FabricRuntime.GetNodeContext().IPAddressOrFQDN}:{endpoint.Port}";
 
-                _webHost = new WebHostBuilder().UseKestrel()
+                string thumbprint = context.GetConfigurationPackageObject("Config").Settings.Sections["Https"].Parameters["CertificateThumbprint"].Value;
+                var cert = GetCertificateByThumbprint(thumbprint);
+
+                _webHost = new WebHostBuilder().UseKestrel(options => { options.UseHttps(cert); })
                                                .UseContentRoot(Directory.GetCurrentDirectory())
                                                .UseStartup<Startup>()
                                                .UseUrls(serverUrl)
@@ -75,6 +79,17 @@ namespace SimpleWebApp
             }
 
             #endregion ICommunicationListener
+
+            #region Certificate
+            private X509Certificate2 GetCertificateByThumbprint(string thumbprint)
+            {
+                var store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+                store.Open(OpenFlags.ReadOnly);
+                var cert = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, false)[0];
+                store.Close();
+                return cert;
+            }
+            #endregion
         }
     }
 }

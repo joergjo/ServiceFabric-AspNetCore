@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Settings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <!-- Add your custom configuration sections and parameters here -->
-  <!--
-  <Section Name="MyConfigSection">
-    <Parameter Name="MyParameter" Value="Value1" />
+  
+  <Section Name="Https">
+    <Parameter Name="CertificateThumbprint" Value="3e 01 fc 64 2e 91 9f 8e 12 d5 8c 8f bd 79 c6 d6 08 c4 00 36" />
   </Section>
-  -->
+  
 </Settings>
