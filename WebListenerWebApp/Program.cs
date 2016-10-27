@@ -61,7 +61,7 @@ namespace WebListenerWebApp
             {
                 var endpoint = FabricRuntime.GetActivationContext().GetEndpoint(_endpointName);
 
-                // Must register <protocol>://+:<port> to support local dev
+                // Must register <protocol>://+:<port>
                 string serverUrl = $"{endpoint.Protocol}://+:{endpoint.Port}";
 
                 _webHost = new WebHostBuilder().UseWebListener()

@@ -9,6 +9,12 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SimpleWebApp", "SimpleWebAp
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WebListenerWebApp", "WebListenerWebApp\WebListenerWebApp.xproj", "{728119E1-9572-4497-B16A-5F9B864AC8ED}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{EA8DE7CC-CA2E-4EB3-87D2-E9FB7989E42B}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

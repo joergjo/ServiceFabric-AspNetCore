@@ -10,6 +10,9 @@
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="WebListenerWebAppPkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
+    <Policies>
+      <EndpointBindingPolicy EndpointRef="ServiceEndpoint" CertificateRef="WebListener" />
+    </Policies>
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="SimpleWebAppPkg" ServiceManifestVersion="1.0.0" />
@@ -32,4 +35,7 @@
       </StatelessService>
     </Service>
   </DefaultServices>
+  <Certificates>
+    <EndpointCertificate X509FindValue="8EC7D8F202C24C09B2A97A801F372CF5EB2F1161" Name="WebListener" />
+  </Certificates>
 </ApplicationManifest>
