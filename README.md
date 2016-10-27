@@ -14,9 +14,9 @@ to configure [HTTP.SYS](https://www.iis.net/learn/get-started/introduction-to-ii
 ***
 
 In order to create your own self-signed certificate(s), follow these steps (this applies to both Kestrel and WebListener):
-1. Create the certificate:  
-Launch PowerShell as local administrator, and execute  
+
+1. Launch PowerShell as local administrator, and execute  
  `New-SelfSignedCertificate -DnsName localhost -FriendlyName "Service Fabric Development Certificate" -CertStoreLocation "Cert:\LocalMachine\My\"`
+
 2. Grant `NETWORK SERVICE` (the system account that Service Fabric uses for its "OneBox" dev cluster) access to your certificate's
- private key:  
- Open the Local Machine certificate store (`certlm.msc` if you have Windows 8 or later), and grant `NETWORK SERVICE` read access on your certificate's private key. 
+ private key. On Windows 8/Windows Server 2012 or newer, you can run `certlm.msc` to get access to the machine's certificate store.
