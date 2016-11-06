@@ -1,4 +1,4 @@
-# servicefabric-aspnetcore
+# ServiceFabric-AspNetCore
 Sample solution that demonstrates using [ASP.NET Core](https://www.asp.net/core) in 
 [Azure Service Fabric](https://azure.microsoft.com/en-us/services/service-fabric/).
 
