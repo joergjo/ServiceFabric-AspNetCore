@@ -43,10 +43,11 @@
   </Principals>
   <Policies>
     <SecurityAccessPolicies>
-      <SecurityAccessPolicy ResourceRef="WebListener" PrincipalRef="Default" GrantRights="Full" ResourceType="Certificate" />
+      <SecurityAccessPolicy ResourceRef="WebListener_Secrets" PrincipalRef="Default" GrantRights="Full" ResourceType="Certificate" />
     </SecurityAccessPolicies>
   </Policies>
   <Certificates>
+    <SecretsCertificate X509FindValue="[WebListener_Certificate]" Name="WebListener_Secrets" />
     <EndpointCertificate X509FindValue="[WebListener_Certificate]" Name="WebListener" />
   </Certificates>
 </ApplicationManifest>
