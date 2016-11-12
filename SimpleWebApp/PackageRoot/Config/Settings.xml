@@ -3,7 +3,7 @@
   <!-- Add your custom configuration sections and parameters here -->
   
   <Section Name="Https">
-    <Parameter Name="CertificateThumbprint" Value="8EC7D8F202C24C09B2A97A801F372CF5EB2F1161" />
+    <Parameter Name="CertificateThumbprint" Value="1BBEC2F51C7639877FD00741D61FC0328480081D" />
   </Section>
   
 </Settings>

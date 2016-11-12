@@ -3,6 +3,7 @@
   <Parameters>
     <Parameter Name="WebListenerWebApp_InstanceCount" DefaultValue="-1" />
     <Parameter Name="SimpleWebApp_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="WebListener_Certificate" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -35,7 +36,17 @@
       </StatelessService>
     </Service>
   </DefaultServices>
+  <Principals>
+    <Users>
+      <User Name="Default" AccountType="NetworkService" />
+    </Users>
+  </Principals>
+  <Policies>
+    <SecurityAccessPolicies>
+      <SecurityAccessPolicy ResourceRef="WebListener" PrincipalRef="Default" GrantRights="Full" ResourceType="Certificate" />
+    </SecurityAccessPolicies>
+  </Policies>
   <Certificates>
-    <EndpointCertificate X509FindValue="8EC7D8F202C24C09B2A97A801F372CF5EB2F1161" Name="WebListener" />
+    <EndpointCertificate X509FindValue="[WebListener_Certificate]" Name="WebListener" />
   </Certificates>
 </ApplicationManifest>

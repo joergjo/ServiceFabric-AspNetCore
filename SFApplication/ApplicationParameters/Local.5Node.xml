@@ -3,5 +3,6 @@
   <Parameters>
     <Parameter Name="WebListenerWebApp_InstanceCount" Value="1" />
     <Parameter Name="SimpleWebApp_InstanceCount" Value="1" />
+    <Parameter Name="WebListener_Certificate" Value="8D016656927B784D5B2A2E2F1D9E8F0796406AC9" />
   </Parameters>
 </Application>

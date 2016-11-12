@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Fabric;
 using System.IO;
@@ -64,14 +65,25 @@ namespace SimpleWebApp
                 var endpoint = context.GetEndpoint(_endpointName);
                 string serverUrl = $"{endpoint.Protocol}://{FabricRuntime.GetNodeContext().IPAddressOrFQDN}:{endpoint.Port}";
 
-                string thumbprint = context.GetConfigurationPackageObject("Config").Settings.Sections["Https"].Parameters["CertificateThumbprint"].Value;
-                var cert = GetCertificateByThumbprint(thumbprint);
+                var cert = default(X509Certificate2);
+                if ("https".Equals(endpoint.Protocol.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                {
+                    string thumbprint = context.GetConfigurationPackageObject("Config").Settings.Sections["Https"].Parameters["CertificateThumbprint"].Value;
+                    cert = GetCertificateByThumbprint(thumbprint);
+                }
 
-                _webHost = new WebHostBuilder().UseKestrel(options => { options.UseHttps(cert); })
-                                               .UseContentRoot(Directory.GetCurrentDirectory())
-                                               .UseStartup<Startup>()
-                                               .UseUrls(serverUrl)
-                                               .Build();
+                _webHost = new WebHostBuilder()
+                    .UseKestrel(options =>
+                    {
+                        if (cert != null)
+                        {
+                            options.UseHttps(cert);
+                        }
+                    })
+                    .UseContentRoot(Directory.GetCurrentDirectory())
+                    .UseStartup<Startup>()
+                    .UseUrls(serverUrl)
+                    .Build();
 
                 _webHost.Start();
 
