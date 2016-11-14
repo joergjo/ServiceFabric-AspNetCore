@@ -23,9 +23,6 @@
     "certificateThumbprint": {
       "type": "string"
     },
-    "rpCertificateThumbprint": {
-      "type": "string"
-    },
     "sourceVaultResourceId": {
       "type": "string",
       "metadata": {
@@ -36,12 +33,6 @@
       "type": "string",
       "metadata": {
         "description": "Refers to the location URL in your key vault where the cluster certificate was uploaded. The format is https://<name of the vault>.vault.azure.net:443/secrets/<exact location>"
-      }
-    },
-    "rpCertificateUrlValue": {
-      "type": "string",
-      "metadata": {
-        "description": "Refers to the location URL in your key vault where the reverse proxy cluster certificate was uploaded. The format is https://<name of the vault>.vault.azure.net:443/secrets/<exact location>"
       }
     }
   },
@@ -68,9 +59,8 @@
     "vmNodeType0Name": "nt1vm",
     "fabricTcpGatewayPort": "19000",
     "fabricHttpGatewayPort": "19080",
-    "httpApplicationGatewayEndpointPort": "19008",
-    "loadBalancedAppPort1": "80",
-    "loadBalancedAppPort2": "8081",
+    "sfReverseProxyEndpointPort": "80",
+    "loadBalancedAppPort1": "8082",
     "certificateStoreValue": "My"
   },
   "resources": [
@@ -253,36 +243,17 @@
             }
           },
           {
-            "name": "AppPortLBRule2",
-            "properties": {
-              "backendAddressPool": {
-                "id": "[variables('lbPoolID0')]"
-              },
-              "backendPort": "[variables('loadBalancedAppPort2')]",
-              "enableFloatingIP": false,
-              "frontendIPConfiguration": {
-                "id": "[variables('lbIPConfig0')]"
-              },
-              "frontendPort": "[variables('loadBalancedAppPort2')]",
-              "idleTimeoutInMinutes": 5,
-              "probe": {
-                "id": "[concat(variables('lbID0'), '/probes/AppPortProbe2')]"
-              },
-              "protocol": "Tcp"
-            }
-          },
-          {
             "name": "LBSFReverseProxyRule",
             "properties": {
               "backendAddressPool": {
                 "id": "[variables('lbPoolID0')]"
               },
-              "backendPort": "[variables('httpApplicationGatewayEndpointPort')]",
+              "backendPort": "[variables('sfReverseProxyEndpointPort')]",
               "enableFloatingIP": false,
               "frontendIPConfiguration": {
                 "id": "[variables('lbIPConfig0')]"
               },
-              "frontendPort": "[variables('httpApplicationGatewayEndpointPort')]",
+              "frontendPort": "[variables('sfReverseProxyEndpointPort')]",
               "idleTimeoutInMinutes": 5,
               "probe": {
                 "id": "[concat(variables('lbID0'),'/probes/SFReverseProxyProbe')]"
@@ -320,20 +291,11 @@
             }
           },
           {
-            "name": "AppPortProbe2",
-            "properties": {
-              "intervalInSeconds": 5,
-              "numberOfProbes": 2,
-              "port": "[variables('loadBalancedAppPort2')]",
-              "protocol": "Tcp"
-            }
-          },
-          {
             "name": "SFReverseProxyProbe",
             "properties": {
               "intervalInSeconds": 5,
               "numberOfProbes": 2,
-              "port": "[variables('httpApplicationGatewayEndpointPort')]",
+              "port": "[variables('sfReverseProxyEndpointPort')]",
               "protocol": "Tcp"
             }
           }
@@ -526,7 +488,7 @@
       }
     },
     {
-      "apiVersion": "2016-03-01",
+      "apiVersion": "2016-09-01",
       "type": "Microsoft.ServiceFabric/clusters",
       "name": "[parameters('clusterName')]",
       "location": "[resourceGroup().location]",
@@ -541,10 +503,6 @@
       "properties": {
         "certificate": {
           "thumbprint": "[parameters('certificateThumbprint')]",
-          "x509StoreName": "[variables('certificateStoreValue')]"
-        },
-        "httpApplicationGatewayCertificate": {
-          "thumbprint": "[parameters('rpCertificateThumbprint')]",
           "x509StoreName": "[variables('certificateStoreValue')]"
         },
         "clientCertificateCommonNames": [],
@@ -582,12 +540,15 @@
               "startPort": 49152
             },
             "httpGatewayEndpointPort": "[variables('fabricHttpGatewayPort')]",
-            "httpApplicationGatewayEndpointPort": "[variables('httpApplicationGatewayEndpointPort')]",
+            "reverseProxyEndpointPort": "[variables('sfReverseProxyEndpointPort')]",
             "isPrimary": true,
             "vmInstanceCount": 3
           }
         ],
-        "provisioningState": "Default"
+        "provisioningState": "Default",
+        "reliabilityLevel": "Bronze",
+        "upgradeMode": "Automatic",
+        "vmImage": "Windows"
       }
     }
   ],

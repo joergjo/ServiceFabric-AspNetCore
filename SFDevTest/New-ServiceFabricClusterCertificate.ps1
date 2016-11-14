@@ -20,7 +20,7 @@ param(
 $SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
 $CertFileFullPath = $(Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Definition) "\$CertDNSName.pfx")
 
-$NewCert = New-SelfSignedCertificate -CertStoreLocation Cert:\CurrentUser\My -DnsName $CertDNSName 
+$NewCert = New-SelfSignedCertificate -CertStoreLocation Cert:\CurrentUser\My -DnsName $CertDNSName -Provider "Microsoft Enhanced Cryptographic Provider v1.0"
 Export-PfxCertificate -FilePath $CertFileFullPath -Password $SecurePassword -Cert $NewCert
 
 $Bytes = [System.IO.File]::ReadAllBytes($CertFileFullPath)
