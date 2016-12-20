@@ -15,9 +15,9 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-    "Microsoft.ServiceFabric": "5.3.301",
-    "Microsoft.ServiceFabric.Data": "2.3.301",
-    "Microsoft.ServiceFabric.Services": "2.3.301",
+    "Microsoft.ServiceFabric": "5.4.145",
+    "Microsoft.ServiceFabric.Data": "2.4.145",
+    "Microsoft.ServiceFabric.Services": "2.4.145",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0"
   },
 

@@ -38,7 +38,7 @@ namespace WebListenerWebApp
 
             protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
             {
-                return new[] { new ServiceInstanceListener(_ => this) };
+                return new[] { new ServiceInstanceListener(ctx => this) };
             }
 
             #endregion StatelessService
@@ -62,7 +62,7 @@ namespace WebListenerWebApp
                 var endpoint = FabricRuntime.GetActivationContext().GetEndpoint(_endpointName);
 
                 // Must register <protocol>://+:<port>
-                string serverUrl = $"{endpoint.Protocol}://+:{endpoint.Port}";
+                string serverUrl = $"{endpoint.Protocol.ToString().ToLowerInvariant()}://+:{endpoint.Port}";
 
                 _webHost = new WebHostBuilder().UseWebListener()
                                                .UseContentRoot(Directory.GetCurrentDirectory())
@@ -72,7 +72,9 @@ namespace WebListenerWebApp
 
                 _webHost.Start();
 
-                return Task.FromResult(serverUrl);
+                // Publish URL with actual address instead of wildcard used for registration
+                string ipAddressOrFQDN = FabricRuntime.GetNodeContext().IPAddressOrFQDN;
+                return Task.FromResult(serverUrl.Replace("+", ipAddressOrFQDN));
             }
 
             #endregion ICommunicationListener

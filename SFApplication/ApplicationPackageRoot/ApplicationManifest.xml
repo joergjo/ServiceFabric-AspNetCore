@@ -43,7 +43,7 @@
   </Principals>
   <Policies>
     <SecurityAccessPolicies>
-      <SecurityAccessPolicy ResourceRef="WebListener_Secrets" PrincipalRef="Default" GrantRights="Full" ResourceType="Certificate" />
+      <SecurityAccessPolicy ResourceRef="WebListener_Secrets" PrincipalRef="Default" ResourceType="Certificate" />
     </SecurityAccessPolicies>
   </Policies>
   <Certificates>

@@ -40,7 +40,7 @@ namespace SimpleWebApp
 
             protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
             {
-                return new[] { new ServiceInstanceListener(_ => this) };
+                return new[] { new ServiceInstanceListener(ctx => this) };
             }
 
             #endregion StatelessService
@@ -63,7 +63,7 @@ namespace SimpleWebApp
             {
                 var context = FabricRuntime.GetActivationContext();
                 var endpoint = context.GetEndpoint(_endpointName);
-                string serverUrl = $"{endpoint.Protocol}://{FabricRuntime.GetNodeContext().IPAddressOrFQDN}:{endpoint.Port}";
+                string serverUrl = $"{endpoint.Protocol.ToString().ToLowerInvariant()}://{FabricRuntime.GetNodeContext().IPAddressOrFQDN}:{endpoint.Port}";
 
                 var cert = default(X509Certificate2);
                 if ("https".Equals(endpoint.Protocol.ToString(), StringComparison.InvariantCultureIgnoreCase))
