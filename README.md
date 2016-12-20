@@ -15,5 +15,5 @@ and make sure Service Fabric sets the correct ACLs for `NETWORK SERVICE` to acce
 
 + SFDevTest: An Azure Resource project for a secure Service Fabric cluster ARM template
 of a three node dev/test cluster with [Service Fabric Reverse Proxy](https://azure.microsoft.com/en-us/documentation/articles/service-fabric-reverseproxy/) 
-enabled for HTTP on port 80, and an non-proxied application port 8082. The project also includes PowerShell scripts to create and deploy
+enabled for HTTP on port 80, and a non-proxied application port 8082. The project also includes PowerShell scripts to create and deploy
 self-signed certificates for testing.
